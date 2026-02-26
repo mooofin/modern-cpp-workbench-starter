@@ -1,0 +1,29 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": { "major": 3, "minor": 20 },
+  "configurePresets": [
+    {
+      "name": "profile",
+      "generator": "Unix Makefiles",
+      "binaryDir": "build-profile",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "ENABLE_PROFILING": "ON",
+        "ENABLE_SANITIZERS": "OFF",
+        "ENABLE_CLANG_TIDY": "OFF",
+        "ENABLE_COVERAGE": "OFF",
+        "ENABLE_LTO": "OFF"
+      }
+    }
+  ],
+  "buildPresets": [
+    { "name": "profile", "configurePreset": "profile" }
+  ],
+  "testPresets": [
+    {
+      "name": "profile",
+      "configurePreset": "profile",
+      "output": { "outputOnFailure": true }
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+---
+Checks: >
+  -readability-identifier-length,
+  readability-*,
+  performance-*,
+  modernize-*,
+  cppcoreguidelines-*
+HeaderFilterRegex: '.*'
+WarningsAsErrors: ''

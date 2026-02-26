@@ -1,0 +1,31 @@
+# build artefacts
+build/
+build-conan/
+build-profile/
+CMakeFiles/
+CMakeCache.txt
+compile_commands.json
+Testing/
+coverage/
+*.profraw
+*.profdata
+
+# binaries
+TemplatePlayground
+container_tests
+main
+test-asan
+
+# Conan
+.conan2/
+.conan2
+CMakeUserPresets.json
+build/**/generators/
+
+# venvs
+.venv/
+
+# misc
+*.swp
+.DS_Store
+.gdb_history

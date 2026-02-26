@@ -1,0 +1,21 @@
+repos:
+  - repo: https://github.com/pre-commit/mirrors-clang-format
+    rev: v18.1.3
+    hooks:
+      - id: clang-format
+        files: "\.(c|cc|cpp|cxx|h|hpp)$"
+  - repo: https://github.com/cheshirekow/cmake-format-pre-commit
+    rev: v0.6.13
+    hooks:
+      - id: cmake-format
+        files: "(CMakeLists\.txt|\.cmake)$"
+  - repo: local
+    hooks:
+      - id: clang-tidy
+        name: clang-tidy
+        entry: clang-tidy
+        language: system
+        types: [c++]
+        args: ["-quiet"]
+        require_serial: true
+        additional_dependencies: []
