@@ -1,40 +1,87 @@
-# C++ Starter (CMake + Conan)
+# modern-cpp-workbench-starter
 
-Modern C++20 starter with sane defaults: warnings-on, sanitizers, clang-tidy, optional IWYU/cppcheck, and Conan deps.
+A practical C++20 starter repo with build tooling, tests, and safety checks already wired in.
+
+## What this gives you
+
+- CMake project setup for C++20
+- Conan integration for dependencies
+- Fast local dev script (`dev.sh`)
+- Sanitizers for memory and UB checks
+- Clang-Tidy, optional cppcheck, optional IWYU
+- GTest test target
+- Profiling helper script (`scripts/profile.sh`)
+
+## Project layout
+
+- `main.cpp`: demo app (`TemplatePlayground` target)
+- `include/container.hpp`: sample generic container utilities
+- `tests/container_test.cpp`: unit tests
+- `docs/`: short notes for runtime, tooling, profiling
+- `dev.sh`: configure, build, and test in one command
 
 ## Quick start
-- Native build (Debug + sanitizers + clang-tidy):
-  ```bash
-  ./dev.sh
-  ```
-- Conan toolchain build (uses `conan-debug` preset created by `conan install`):
-  ```bash
-  conan install . --output-folder=build-conan --build=missing -s build_type=Debug
-  PRESET=conan-debug ./dev.sh
-  ```
-- LeakSanitizer workaround here: `ASAN_OPTIONS=detect_leaks=0` (default via `LEAKS=0`). Set `LEAKS=1` to enable.
 
-## Options & tooling
-See `docs/tooling.md` for all switches. Highlights:
-- Sanitizers: `-DENABLE_SANITIZERS=ON` (Debug) with `-DSANITIZERS_LIST="address;undefined;thread"`.
-- Coverage: `-DENABLE_COVERAGE=ON` (Clang) then `cmake --build <dir> --target coverage`.
-- Profiling: `-DENABLE_PROFILING=ON` or `PROFILING=ON` in `dev.sh`; see `docs/profiling.md`.
-- Static analysis: clang-tidy (default ON), cppcheck target, optional include-what-you-use (`-DENABLE_IWYU=ON`).
-- Pre-commit hooks: `.pre-commit-config.yaml` runs clang-format, cmake-format, optional clang-tidy.
+### 1. Native build
 
-## Presets & profiles
-- Native: `build` directory by default.
-- Conan: `conan install` generates `build-conan` and preset `conan-debug`.
-- Sample Conan profiles: `conan-profiles/clang`, `conan-profiles/gcc` (`conan install . -pr conan-profiles/clang`).
+```bash
+./dev.sh
+```
 
-## Targets
-- `TemplatePlayground` — demo binary showcasing modern non-math C++20 patterns:
-  concepts, `std::variant` visitation, ranges views, spans, and optional/reference-wrapper lookups.
-- `container_tests` — GTest suite (labels: `unit;sanitizers`).
-- `cppcheck` — static analysis (if tool installed).
-- `coverage` — HTML coverage via LLVM tools when enabled.
+This runs configure + build + tests in Debug mode with useful defaults.
 
-## Scripts
-- `dev.sh` — configure/build/test wrapper. Env vars: `BUILD_DIR`, `BUILD_TYPE`, `CLANG_TIDY`, `SAN`, `SAN_LIST`, `COVERAGE`, `LEAKS`, `PRESET`, `IWYU`, `PROFILING`.
+### 2. Conan build
 
-More notes in `docs/runtime.md`, `docs/tooling.md`, and `docs/profiling.md`.
+```bash
+conan install . --output-folder=build-conan --build=missing -s build_type=Debug
+PRESET=conan-debug ./dev.sh
+```
+
+## Useful commands
+
+### Build only
+
+```bash
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Debug
+cmake --build build -j
+```
+
+### Run tests
+
+```bash
+ctest --test-dir build --output-on-failure
+```
+
+If LeakSanitizer causes issues in sandboxed environments:
+
+```bash
+ASAN_OPTIONS=detect_leaks=0 ctest --test-dir build --output-on-failure
+```
+
+### Run the demo binary
+
+```bash
+./build/TemplatePlayground
+```
+
+## CMake options you will likely use
+
+- `-DENABLE_SANITIZERS=ON`
+- `-DSANITIZERS_LIST="address;undefined"`
+- `-DENABLE_CLANG_TIDY=ON`
+- `-DENABLE_CPPCHECK=ON`
+- `-DENABLE_IWYU=OFF`
+- `-DENABLE_COVERAGE=OFF`
+- `-DENABLE_PROFILING=OFF`
+
+## Profiling
+
+```bash
+PROFILING=ON SAN=OFF ./dev.sh
+ASAN_OPTIONS=detect_leaks=0 ./scripts/profile.sh
+```
+
+## Notes
+
+- This repo currently uses `master` as the default branch.
+- If you use this as a base for a new project, start by renaming the target and package metadata to your app name.
