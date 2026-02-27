@@ -1,12 +1,18 @@
-# Project overview
+# Overview
 
-This repo is a small C++20 starter meant to feel good out of the box:
-- Clean builds: warnings-as-errors, modern CMake, LTO toggle.
-- Safety nets: ASan/UBSan (configurable list), optional coverage, profiler-friendly preset.
-- Tooling: clang-tidy on by default, cppcheck target, IWYU optional, clang-format/cmake-format hooks.
-- Tests: GTest suite with sensible labels and Conan integration.
-- Helpers: `dev.sh` for quick loops, Conan profiles, profiling script.
+This project is a practical C++20 starter, not a toy skeleton.
 
-Use it as a seed for experiments or as a template for new projects.
+You get:
+- A modern CMake setup with strong warnings and optional LTO
+- Unit tests (GTest via CMake/Conan, standalone test target for Bazel)
+- Sanitizers and optional coverage/profiling flags
+- Optional static analysis hooks (clang-tidy, cppcheck, IWYU)
+- A one-command local loop in `./dev.sh`
 
-Current demo executable: `TemplatePlayground` in `main.cpp`, built around an event/action pipeline (not numeric/math examples) using modern C++20 features.
+Main files:
+- `main.cpp` demo app target: `TemplatePlayground`
+- `include/container.hpp` small reusable container utility
+- `tests/container_test.cpp` CMake/Conan GTest suite
+- `tests/container_bazel_test.cpp` Bazel-friendly test binary
+
+If you are starting a new project from this repo, first rename the binary/package names and replace the demo logic in `main.cpp`.

@@ -1,19 +1,26 @@
+COMMON_COPTS = [
+    "-std=c++20",
+    "-Wall",
+    "-Wextra",
+    "-Wpedantic",
+]
+
 cc_binary(
     name = "TemplatePlayground",
     srcs = ["main.cpp"],
-    copts = ["-std=c++20"],
+    copts = COMMON_COPTS,
 )
 
 cc_library(
     name = "container",
     hdrs = ["include/container.hpp"],
     includes = ["include"],
-    copts = ["-std=c++20"],
+    copts = COMMON_COPTS,
 )
 
 cc_test(
     name = "container_test",
     srcs = ["tests/container_bazel_test.cpp"],
     deps = [":container"],
-    copts = ["-std=c++20"],
+    copts = COMMON_COPTS,
 )

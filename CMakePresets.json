@@ -3,6 +3,17 @@
   "cmakeMinimumRequired": { "major": 3, "minor": 20 },
   "configurePresets": [
     {
+      "name": "llvm-debug",
+      "generator": "Unix Makefiles",
+      "binaryDir": "build-llvm",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_CXX_COMPILER": "clang++",
+        "ENABLE_LLD": "ON",
+        "USE_LIBCXX": "OFF"
+      }
+    },
+    {
       "name": "profile",
       "generator": "Unix Makefiles",
       "binaryDir": "build-profile",
@@ -17,9 +28,15 @@
     }
   ],
   "buildPresets": [
+    { "name": "llvm-debug", "configurePreset": "llvm-debug" },
     { "name": "profile", "configurePreset": "profile" }
   ],
   "testPresets": [
+    {
+      "name": "llvm-debug",
+      "configurePreset": "llvm-debug",
+      "output": { "outputOnFailure": true }
+    },
     {
       "name": "profile",
       "configurePreset": "profile",
