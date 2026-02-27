@@ -15,7 +15,7 @@
     pkg-config
     python3
     python3Packages.pip
-    python3Packages.conan
+    # conan
     bazelisk
     git
   ];
